@@ -8,110 +8,47 @@ info:
 security:
   - BearerAuth: []
 paths:
-  /api/v1/teams:
-    x-router-controller: teamsController
+  /api/v1/localentities:
+    x-router-controller: localentitiesController
     get:
-      description: Returns all teams
-      operationId: getTeams
+      description: Returns all localentitiess
+      operationId: getLocalEntitiess
       responses:
         200:
-          description: Team list
+          description: LocalEntities list
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/team'
+                  $ref: '#/components/schemas/localentities'
         default:
           description: Unexpected error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-    post:
-      description: Creates a new team
-      operationId: addTeam
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/team'
-        description: Team to be created
-        required: true
-      responses:
-        201:
-          description: Team
-        default:
-            description: Unexpected error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/error'
+    
                   
-  /api/v1/teams/{id}:
-    x-router-controller: teamsController
+  /api/v1/localentities/{province}:
+    x-router-controller: localentitiesController
     get:
-      description: Returns a single team by its id
-      operationId: findByid
+      description: Returns a single localentities by its id
+      operationId: findByprovince
       parameters:
         - required: true
-          name: id
-          description: id of the team to fetch
+          name: province
+          description: province of the localentities to fetch
           in: path
           schema:
-            type: number
+            type: string
       responses:
         200:
-          description: Team found by id
+          description: LocalEntities found by province
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/team'
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-    put:
-      description: Update a team based on its id
-      operationId: updateTeam
-      parameters:
-        - required: true
-          name: id
-          description: id of the team to update
-          in: path
-          schema:
-            type: number
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/team'
-        description: Team to be updated
-        required: true
-      responses:
-        '204':
-          description: Team updated
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-    delete:
-      description: Deletes a single team based on its id
-      operationId: deleteTeam
-      parameters:
-        - required: true
-          name: id
-          description: id of the team to delete
-          in: path
-          schema:
-            type: number
-      responses:
-        '204':
-          description: Team deleted
+                $ref: '#/components/schemas/localentities'
         default:
           description: Unexpected error
           content:
@@ -126,25 +63,29 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    team:
+    localentities:
         type: object
         required:
-          - id
+          - province
         properties:
-          id:
+          province:
+            type: string
+          landline:
             type: number
-          name:
+          first_name:
             type: string
-          code:
+          second_name:
             type: string
-          country:
-            type: string
-          founded:
+          president_appointment_date:
             type: number
-          national:
-            type: boolean
-          logo:
-            type: string
+          surface_extension:
+            type: number
+          population:
+            type: number
+          expense:
+            type: number
+          income:
+            type: number
     error:
       type: object
       required:
